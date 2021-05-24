@@ -1,0 +1,25 @@
+<input type="text" #t (keyup)="0">
+<button (click)="addTask(t.value)">Add Task</button>
+<br />
+<div class="filters">
+  <input type="radio" [(ngModel)]="taskstatus" name="tstatus" value="complete">
+  Complete &nbsp;&nbsp;&nbsp;
+  <input type="radio" [(ngModel)]="taskstatus" name="tstatus" value="incomplete">
+  Incomplete &nbsp;&nbsp;&nbsp;
+  <input type="radio" [(ngModel)]="taskstatus" name="tstatus" value="all">
+  All &nbsp;&nbsp;&nbsp;
+</div>
+<ul>
+  <li class="task bg-info d-flex justify-content-between align-items-center"
+    *ngFor="let task of tasks|filterTasks:taskstatus;let i = index">
+    <span [ngClass]="task.status==true?'striketext':''">
+      {{task.text}}
+    </span>
+    <div class="buttons">
+      <button class="btn btn-danger" id="delButton" (click)="deleteTask(i)" [disabled]="!task.status">Delete</button>
+      <button class="btn btn-primary" id="doneButton" (click)="doneTask(i)" *ngIf="!task.status">Done</button>
+      <button class="btn btn-warning" id="undoButton" (click)="undoTask(i)" *ngIf="task.status"
+        (click)="undoTask(i)">Undo</button>
+    </div>
+  </li>
+</ul>
